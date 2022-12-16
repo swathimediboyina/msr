@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-repo
+  namespace: swathi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docker-repo
+  template:
+    metadata:
+      labels:
+        app: docker-repo
+    spec:
+      containers:
+      - name: docker-repo
+        image: 388328004932.dkr.ecr.ap-south-1.amazonaws.com/docker-repo
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-repo
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: docker-repo
